@@ -192,12 +192,14 @@ install() {
     fi
   fi
 
-  if [ -e /etc/zfs/zpool.cache ]; then
+  # shellcheck disable=SC2154
+  if [ -e /etc/zfs/zpool.cache ] && [ -z "${zfsbootmenu_release}" ]; then
     inst /etc/zfs/zpool.cache
     type mark_hostonly >/dev/null 2>&1 && mark_hostonly /etc/zfs/zpool.cache
   fi
 
-  if [ -e /etc/zfs/vdev_id.conf ]; then
+  # shellcheck disable=SC2154
+  if [ -e /etc/zfs/vdev_id.conf ] && [ -z "${zfsbootmenu_release}" ] ; then
     inst /etc/zfs/vdev_id.conf
     type mark_hostonly >/dev/null 2>&1 && mark_hostonly /etc/zfs/vdev_id.conf
   fi
@@ -214,7 +216,7 @@ install() {
     NEWZFS=""
   fi
 
-  if [ -n "${NEWZFS}" ] && [ -e /etc/hostid ]; then
+  if [ -n "${NEWZFS}" ] && [ -e /etc/hostid ] && [ -z "${zfsbootmenu_release}" ]; then
     # With zfs >= 2.0, prefer the hostid file if it exists
     inst /etc/hostid
   elif HOSTID="$( hostid 2>/dev/null )"; then
